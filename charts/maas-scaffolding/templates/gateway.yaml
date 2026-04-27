@@ -14,14 +14,14 @@ spec:
     - name: http
       port: 80
       protocol: HTTP
-      hostname: maas.apps.cluster.example.com
+      hostname: maas.{{ .Values.global.localClusterDomain }}
       allowedRoutes:
         namespaces:
           from: All
     - name: https
       port: 443
       protocol: HTTPS
-      hostname: maas.apps.cluster.example.com
+      hostname: maas.{{ .Values.global.localClusterDomain }}
       tls:
         certificateRefs:
         - group: ""
