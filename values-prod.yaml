@@ -2,7 +2,6 @@ clusterGroup:
   name: prod
 
   namespaces:
-    - ai-quickstart-maas-code-assistant:
     - vault:
     - external-secrets-operator:
         operatorGroup: true
@@ -67,5 +66,9 @@ clusterGroup:
       chartVersion: 0.1.*
     maas-scaffolding:
       name: maas-scaffolding
-      namespace: ai-quickstart-maas-code-assistant
       path: charts/maas-scaffolding
+    maas-quickstart:
+      name: maas-quickstart
+      repoURL: https://github.com/rh-ai-quickstart/maas-code-assistant
+      chartVersion: main
+      path: charts/maas-code-assistant
