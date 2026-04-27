@@ -22,6 +22,7 @@ clusterGroup:
       operatorGroup: true
       targetNamespaces: []
     kuadrant-system:
+    grafana:
     openshift-nfd:
     nvidia-gpu-operator:
 
