@@ -1,0 +1,9 @@
+global:
+  pattern: ai-quickstart-maas-code-assistant
+  secretLoader:
+    disabled: false
+main:
+  clusterGroupName: prod
+  multiSourceConfig:
+    enabled: true
+    clusterGroupChartVersion: 0.9.*

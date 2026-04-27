@@ -1,0 +1,30 @@
+clusterGroup:
+  name: prod
+  namespaces:
+    - ai-quickstart-maas-code-assistant
+    - vault
+    - external-secrets-operator:
+        operatorGroup: true
+        targetNamespaces: []
+    - external-secrets
+    - openshift-lws-operator
+    - cert-manager-operator
+    - keycloak
+    - redhat-ods-operator
+    - kuadrant-system
+  subscriptions:
+    eso:
+      name: openshift-external-secrets-operator
+      namespace: external-secrets-operator
+      channel: stable-v1
+  applications:
+    openshift-external-secrets:
+      name: openshift-external-secrets
+      namespace: external-secrets
+      chart: openshift-external-secrets
+      chartVersion: 0.0.*
+    vault:
+      name: vault
+      namespace: vault
+      chart: hashicorp-vault
+      chartVersion: 0.1.*
