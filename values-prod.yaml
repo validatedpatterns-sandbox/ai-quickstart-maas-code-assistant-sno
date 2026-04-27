@@ -2,26 +2,28 @@ clusterGroup:
   name: prod
 
   namespaces:
-    - vault:
-    - external-secrets-operator:
-        operatorGroup: true
-        targetNamespaces: []
-    - external-secrets:
-    - openshift-lws-operator:
-        operatorGroup: true
-        targetNamespaces:
-          - openshift-lws-operator
-    - cert-manager-operator:
-        operatorGroup: true
-        targetNamespaces: []
-    - keycloak:
-        operatorGroup: true
-        targetNamespaces:
-          - keycloak
-    - redhat-ods-operator:
-        operatorGroup: true
-        targetNamespaces: []
-    - kuadrant-system:
+    vault:
+    external-secrets-operator:
+      operatorGroup: true
+      targetNamespaces: []
+    external-secrets:
+    openshift-lws-operator:
+      operatorGroup: true
+      targetNamespaces:
+        - openshift-lws-operator
+    cert-manager-operator:
+      operatorGroup: true
+      targetNamespaces: []
+    keycloak:
+      operatorGroup: true
+      targetNamespaces:
+        - keycloak
+    redhat-ods-operator:
+      operatorGroup: true
+      targetNamespaces: []
+    kuadrant-system:
+    openshift-nfd:
+    nvidia-gpu-operator:
 
   subscriptions:
     eso:
@@ -52,6 +54,13 @@ clusterGroup:
     rhoai:
       name: rhods-operator
       channel: stable-3.3
+    nfd:
+      name: nfd
+      namespace: openshift-nfd
+    nvidia:
+      name: gpu-operator-certified
+      namespace: nvidia-gpu-operator
+      source: certified-operators
 
   applications:
     openshift-external-secrets:
