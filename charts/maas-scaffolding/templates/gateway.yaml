@@ -26,7 +26,7 @@ spec:
         certificateRefs:
         - group: ""
           kind: Secret
-          name:
+          name: default-ingress-cert
         mode: Terminate
       allowedRoutes:
         namespaces:
