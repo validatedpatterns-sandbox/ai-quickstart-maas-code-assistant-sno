@@ -1,3 +1,7 @@
+global:
+  wildcardCertName: cert-manager-ingress-cert
+  wildcardDomain: {{ .Values.global.localClusterDomain }}
+
 clusterGroup:
   name: prod
 
@@ -14,10 +18,10 @@ clusterGroup:
     cert-manager-operator:
       operatorGroup: true
       targetNamespaces: []
-    keycloak:
-      operatorGroup: true
-      targetNamespaces:
-        - keycloak
+    # keycloak:
+    #   operatorGroup: true
+    #   targetNamespaces:
+    #     - keycloak
     redhat-ods-operator:
       operatorGroup: true
       targetNamespaces: []
@@ -25,6 +29,9 @@ clusterGroup:
     grafana:
     openshift-nfd:
     nvidia-gpu-operator:
+
+  sharedValueFiles:
+    - /overrides/values-{{ $.Values.global.clusterPlatform }}.yaml
 
   subscriptions:
     eso:
@@ -39,6 +46,7 @@ clusterGroup:
       name: devspaces
     grafana:
       name: grafana-operator
+      namespace: grafana
       channel: v5
       source: community-operators
     lws:
@@ -47,9 +55,9 @@ clusterGroup:
     cert-manager:
       name: openshift-cert-manager-operator
       channel: stable-v1
-    keycloak:
-      name: rhbk-operator
-      channel: stable-v26.4
+    # keycloak:
+    #   name: rhbk-operator
+    #   channel: stable-v26.4
     kuadrant:
       name: rhcl-operator
     rhoai:
@@ -82,3 +90,5 @@ clusterGroup:
       repoURL: https://github.com/rh-ai-quickstart/maas-code-assistant
       chartVersion: main
       path: charts/maas-code-assistant
+      extraValueFiles:
+        - /overrides/maas-quickstart.yaml

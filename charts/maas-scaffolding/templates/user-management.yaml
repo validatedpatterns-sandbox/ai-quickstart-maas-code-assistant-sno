@@ -1,0 +1,40 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: htpasswd-secret-es
+  namespace: openshift-config
+spec:
+  refreshInterval: 15s
+  secretStoreRef:
+    name: vault-backend
+    kind: ClusterSecretStore
+  target:
+    name: htpasswd-secret
+    template:
+      type: Opaque
+      engineVersion: v2
+      data:
+        htpasswd: |
+          {{- range .Values.htpasswdUsers }}
+          {{ printf `{{ htpasswd "%s" (index . "%s") }}` . . }}
+          {{- end }}
+  data:
+  {{- range .Values.htpasswdUsers }}
+  - secretKey: {{ . }}
+    remoteRef:
+      key: secret/data/hub/htpasswd
+      property: {{ . }}
+  {{- end }}
+---
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+spec:
+  identityProviders:
+    - name: htpasswd_provider
+      mappingMethod: claim
+      type: HTPasswd
+      htpasswd:
+        fileData:
+          name: htpasswd-secret

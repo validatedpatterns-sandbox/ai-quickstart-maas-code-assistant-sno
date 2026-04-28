@@ -1,0 +1,40 @@
+devspaces:
+  enabled: true
+  namespace: openshift-devspaces
+grafana:
+  enabled: true
+  namespace: grafana
+  selectors:
+    app: grafana
+cluster-monitoring:
+  enabled: true
+
+tiers:
+  free:
+    users:
+      - free-user
+    requestRates:
+      - limit: 5
+        window: 2m
+    tokenRates:
+      - limit: 100
+        window: 1m
+  premium:
+    users:
+      - premium-user
+    requestRates:
+      - limit: 20
+        window: 2m
+    tokenRates:
+      - limit: 10000
+        window: 1m
+  enterprise:
+    users:
+      - admin
+      - enterprise-user
+    requestRates:
+      - limit: 50
+        window: 2m
+    tokenRates:
+      - limit: 20000
+        window: 1m

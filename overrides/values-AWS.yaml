@@ -1,0 +1,35 @@
+clusterGroup:
+  imperative:
+    jobs:
+      - name: deploy-nvidia-gpus
+        playbook: rhvp.cluster_utils.create_machineset
+        verbosity: -vvv
+        extravars:
+          - max_machineset_count=1
+          - machineset_replicas=2
+          - ensure_two_machine_minimum=false
+          - machineset_name=nvidia-gpu
+          - machineset_labels=
+          - machineset_instance_type=g6e.2xlarge
+          - 'machineset_taints=[{"effect":"NoSchedule","key":"nvidia.com/gpu","value":"true"}]'
+          - 'machineset_node_labels={"node-role.kubernetes.io/nvidia-gpu":""}'
+          - machineset_api_version=machine.openshift.io/v1beta1
+    clusterRoleYaml:
+      - apiGroups:
+          - "*"
+        resources:
+          - machinesets
+          - persistentvolumeclaims
+          - datavolumes
+          - dataimportcrons
+          - datasources
+        verbs:
+          - "*"
+      - apiGroups:
+          - "*"
+        resources:
+          - "*"
+        verbs:
+          - get
+          - list
+          - watch

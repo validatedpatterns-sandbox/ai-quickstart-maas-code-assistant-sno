@@ -1,4 +1,11 @@
 apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: openshift-default
+spec:
+  controllerName: "openshift.io/gateway-controller/v1"
+---
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: maas-default-gateway
@@ -26,8 +33,24 @@ spec:
         certificateRefs:
         - group: ""
           kind: Secret
-          name: default-ingress-cert
+          name: {{ .Values.global.wildcardCertName }}
         mode: Terminate
       allowedRoutes:
         namespaces:
           from: All
+---
+apiVersion: kuadrant.io/v1beta1
+kind: Kuadrant
+metadata:
+  name: kuadrant
+  namespace: kuadrant-system
+---
+apiVersion: operator.openshift.io/v1
+kind: LeaderWorkerSetOperator
+metadata:
+  name: cluster
+  namespace: openshift-lws-operator
+spec:
+  logLevel: Normal
+  managementState: Managed
+  operatorLogLevel: Normal
