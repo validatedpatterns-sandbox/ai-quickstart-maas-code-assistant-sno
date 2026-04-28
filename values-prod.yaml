@@ -1,6 +1,6 @@
 global:
   wildcardCertName: cert-manager-ingress-cert
-  wildcardDomain: {{ .Values.global.localClusterDomain }}
+  wildcardDomain: apps.cluster-d4j5w.d4j5w.sandbox3872.opentlc.com
 
 clusterGroup:
   name: prod
