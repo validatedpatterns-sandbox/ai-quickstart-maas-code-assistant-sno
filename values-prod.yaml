@@ -1,6 +1,6 @@
 global:
   wildcardCertName: cert-manager-ingress-cert
-  wildcardDomain: apps.cluster-d4j5w.d4j5w.sandbox3872.opentlc.com
+  wildcardDomain: apps.drew-maas-quickstart.aws.validatedpatterns.io
 
 clusterGroup:
   name: prod
