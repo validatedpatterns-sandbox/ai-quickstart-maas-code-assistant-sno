@@ -28,6 +28,10 @@ clusterGroup:
     grafana:
     openshift-nfd:
     nvidia-gpu-operator:
+    openshift-storage:
+      operatorGroup: true
+      targetNamespaces:
+        - openshift-storage
 
   sharedValueFiles:
     - /overrides/values-{{ $.Values.global.clusterPlatform }}.yaml
