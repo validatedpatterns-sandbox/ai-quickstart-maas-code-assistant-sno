@@ -1,6 +1,5 @@
 global:
   wildcardCertName: cert-manager-ingress-cert
-  wildcardDomain: apps.drew-maas-quickstart.aws.validatedpatterns.io
 
 clusterGroup:
   name: prod
@@ -87,7 +86,7 @@ clusterGroup:
       path: charts/maas-scaffolding
     maas-quickstart:
       name: maas-quickstart
-      repoURL: https://github.com/rh-ai-quickstart/maas-code-assistant
+      repoURL: https://github.com/dminnear-rh/maas-code-assistant.git
       chartVersion: main
       path: charts/maas-code-assistant
       extraValueFiles:
