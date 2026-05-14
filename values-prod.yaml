@@ -81,6 +81,14 @@ clusterGroup:
       namespace: vault
       chart: hashicorp-vault
       chartVersion: 0.1.*
+    image-registry:
+      name: image-registry
+      namespace: openshift-image-registry
+      path: charts/image-registry
+    lvms:
+      name: lvms
+      namespace: openshift-storage
+      path: charts/lvms
     maas-scaffolding:
       name: maas-scaffolding
       path: charts/maas-scaffolding
