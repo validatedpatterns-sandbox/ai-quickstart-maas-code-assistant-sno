@@ -1,0 +1,54 @@
+- name: Get current pull secret
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    name: "{{ pull_secret_name }}"
+    namespace: "{{ pull_secret_namespace }}"
+  register: pull_secret_result
+
+- name: Decode pull secret JSON
+  ansible.builtin.set_fact:
+    pull_secret_json: "{{ pull_secret_result.resources[0].data['.dockerconfigjson'] | b64decode | from_json }}"
+
+- name: Check if registry auth already exists
+  ansible.builtin.set_fact:
+    registry_auth_exists: "{{ registry_host in pull_secret_json.auths }}"
+
+- name: Write current pull secret to temp file
+  ansible.builtin.copy:
+    content: "{{ pull_secret_json | to_nice_json }}"
+    dest: /tmp/current-pull-secret.json
+    mode: "0600"
+  when: not registry_auth_exists
+
+- name: Create token for registry service account
+  ansible.builtin.command:
+    cmd: oc create token {{ registry_sa_name }} -n {{ registry_sa_namespace }}
+  register: token_result
+  when: not registry_auth_exists
+  changed_when: true
+
+- name: Add registry credentials to pull secret file
+  ansible.builtin.command:
+    cmd: >-
+      oc registry login
+      --registry={{ registry_host }}
+      --auth-basic={{ registry_sa_name }}:{{ token_result.stdout }}
+      --to=/tmp/current-pull-secret.json
+  when: not registry_auth_exists
+  changed_when: true
+
+- name: Update global pull secret
+  ansible.builtin.command:
+    cmd: >-
+      oc set data secret/{{ pull_secret_name }}
+      -n {{ pull_secret_namespace }}
+      --from-file=.dockerconfigjson=/tmp/current-pull-secret.json
+  when: not registry_auth_exists
+  changed_when: true
+
+- name: Clean up temp file
+  ansible.builtin.file:
+    path: /tmp/current-pull-secret.json
+    state: absent
+  when: not registry_auth_exists

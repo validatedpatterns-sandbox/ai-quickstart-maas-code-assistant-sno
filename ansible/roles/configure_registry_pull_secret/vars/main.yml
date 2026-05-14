@@ -1,0 +1,5 @@
+registry_host: image-registry.openshift-image-registry.svc:5000
+pull_secret_namespace: openshift-config
+pull_secret_name: pull-secret
+registry_sa_name: registry
+registry_sa_namespace: openshift-image-registry

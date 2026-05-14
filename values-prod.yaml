@@ -69,6 +69,9 @@ clusterGroup:
       name: gpu-operator-certified
       namespace: nvidia-gpu-operator
       source: certified-operators
+    lvms:
+      name: lvms-operator
+      namespace: openshift-storage
 
   applications:
     openshift-external-secrets:
@@ -99,3 +102,9 @@ clusterGroup:
       path: charts/maas-code-assistant
       extraValueFiles:
         - /overrides/maas-quickstart.yaml
+
+  imperative:
+    jobs:
+      - name: configure-registry-pull-secret
+        playbook: ansible/playbooks/configure-registry-pull-secret.yml
+        timeout: 300
