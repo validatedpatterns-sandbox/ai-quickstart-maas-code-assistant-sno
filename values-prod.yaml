@@ -32,6 +32,9 @@ clusterGroup:
       operatorGroup: true
       targetNamespaces:
         - openshift-storage
+    metallb-system:
+      operatorGroup: true
+      targetNamespaces: []
 
   sharedValueFiles:
     - /overrides/values-{{ $.Values.global.clusterPlatform }}.yaml
@@ -76,6 +79,9 @@ clusterGroup:
     lvms:
       name: lvms-operator
       namespace: openshift-storage
+    metal-lb:
+      name: metallb-operator
+      namespace: metallb-system
 
   applications:
     openshift-external-secrets:
@@ -96,6 +102,10 @@ clusterGroup:
       name: lvms
       namespace: openshift-storage
       path: charts/lvms
+    metal-lb:
+      name: metal-lb
+      namespace: metallb-system
+      path: charts/metal-lb
     maas-scaffolding:
       name: maas-scaffolding
       path: charts/maas-scaffolding

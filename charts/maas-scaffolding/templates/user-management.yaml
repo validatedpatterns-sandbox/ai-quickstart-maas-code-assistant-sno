@@ -38,3 +38,33 @@ spec:
       htpasswd:
         fileData:
           name: htpasswd-secret
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-admins
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  {{- range .Values.clusterAdmins }}
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: {{ . }}
+  {{- end }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-readers
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-reader
+subjects:
+  {{- range .Values.clusterReaders }}
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: {{ . }}
+  {{- end }}

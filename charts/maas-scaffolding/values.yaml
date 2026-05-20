@@ -6,3 +6,12 @@ htpasswdUsers:
   - free-user
   - premium-user
   - enterprise-user
+
+clusterAdmins:
+  - admin
+  - kubeadmin
+
+clusterReaders:
+  - free-user
+  - premium-user
+  - enterprise-user
