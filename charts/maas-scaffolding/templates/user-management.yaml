@@ -4,7 +4,7 @@ metadata:
   name: htpasswd-secret-es
   namespace: openshift-config
 spec:
-  refreshInterval: 15s
+  refreshInterval: 5m
   secretStoreRef:
     name: vault-backend
     kind: ClusterSecretStore
