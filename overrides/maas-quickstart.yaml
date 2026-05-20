@@ -38,3 +38,50 @@ tiers:
     tokenRates:
       - limit: 20000
         window: 1m
+
+models:
+  - name: gpt-oss-20b
+    displayName: OpenAI gpt-oss-20b
+    uri: oci://registry.redhat.io/rhelai1/modelcar-gpt-oss-20b:1.5
+    resources:
+      limits:
+        cpu: "4"
+        memory: 24Gi
+        nvidia.com/gpu: "1"
+      requests:
+        cpu: "2"
+        memory: 16Gi
+        nvidia.com/gpu: "1"
+    extraArgs:
+      - --enable-force-include-usage
+    tolerations:
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists
+  - name: nemotron-3-nano-30b-a3b
+    displayName: NVIDIA Nemotron 3 Nano 30B A3B FP8
+    tiers:
+      - premium
+      - enterprise
+    uri: oci://quay.io/jharmison/models:redhatai--nvidia-nemotron-3-nano-30b-a3b-fp8-modelcar
+    resources:
+      limits:
+        cpu: "4"
+        memory: 24Gi
+        nvidia.com/gpu: "1"
+      requests:
+        cpu: "2"
+        memory: 16Gi
+        nvidia.com/gpu: "1"
+    extraArgs:
+      - --enable-force-include-usage
+      - --max-model-len=16384
+      - --enable-auto-tool-choice
+      - --tool-call-parser=qwen3_coder
+      - --trust-remote-code
+      - --reasoning-parser-plugin=/mnt/models/nano_v3_reasoning_parser.py
+      - --reasoning-parser=nano_v3
+    tolerations:
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists
